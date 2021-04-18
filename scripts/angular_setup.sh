@@ -8,7 +8,7 @@ mkdir $application_folder_name
 cd $application_folder_name
 
 sudo apt install npm -y
-sudo npm install -g @angular/cli -n
+sudo npm install -g @angular/cli
 ng new $application_name
 ng serve --open
 
