@@ -10,6 +10,7 @@ cd $application_folder_name
 sudo apt install npm -y
 sudo npm install -g @angular/cli
 ng new $application_name
+cd $application_name
 ng serve --open
 
 exit
