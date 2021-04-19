@@ -1,6 +1,7 @@
 #!bin/bash
 
 # Simple script to create a sudo user, disable root login, and connect with a git newly created Github repo
+# This script is bulky and doesn't a very defined scope. Probably should not be used (should be broken up into multiple scripts - git setup is already handled more cleanly by local_git_config.sh)
 
 read -p "Enter new local system username: " SYSTEMUSER
 read -p "Enter new local git username: " GITUSER
