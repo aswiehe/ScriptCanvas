@@ -1,5 +1,6 @@
 #!bin/bash
 
-sudo usermod -aG vboxsf sauron
+sudo usermod -G vboxsf -a sauron
+sudo shutdown -r now
 
 exit
