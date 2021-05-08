@@ -21,6 +21,7 @@ log_extension = .log
 
 # SSH
 component_id = 0
+component_0_tag = ssh
 component_0_name = enable_ssh
 component_0_description = "Sets enables SSH on the virtual machine for accessing remotely"
 component_0_scriptpath = $default_scriptpath
@@ -30,6 +31,7 @@ component_0_logname = $component_0_name + $log_extension
 
 # VLC
 component_id = 1
+component_0_tag = vlc
 component_1_name = install_vlc
 component_1_description = "Installs VLC as a simple way (read: flimsy) to get some important codecs"
 component_1_scriptpath = $default_scriptpath
@@ -39,6 +41,7 @@ component_1_logname = $component_1_name + $log_extension
 
 # VirtualBox Guest Additions
 component_id = 2
+component_0_tag = vbga
 component_2_name = enable_vm_guest_additions
 component_2_description = "Sets up VirtualBox Guest Additions on virtual machine"
 component_2_scriptpath = $default_scriptpath
@@ -48,6 +51,7 @@ component_2_logname = $component_2_name + $log_extension
 
 # Shared Folders
 component_id = 3
+component_0_tag = shrdf
 component_3_name = share_folders
 component_3_description = "Interactive setup for shared folders between this VM's and others on the host"
 component_3_scriptpath = $default_scriptpath
