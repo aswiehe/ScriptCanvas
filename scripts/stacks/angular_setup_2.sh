@@ -27,4 +27,6 @@ git config --global user.name "sauron@mordor"
 
 # Start app server
 ng serve --open
+
+
 exit
