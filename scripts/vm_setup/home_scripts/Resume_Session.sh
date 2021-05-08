@@ -1,4 +1,6 @@
 #!bin/bash
 
-cd ~/ScriptCanvas/scripts/vm_setup/
+script_path=~/ScriptCanvas/scripts/vm_setup/
+
+cd $script_path
 bash start_session.sh
