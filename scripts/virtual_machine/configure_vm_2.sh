@@ -1,12 +1,23 @@
 #!bin/bash
 
+# Check for update/upgrade
 sudo apt update -y
 sudo apt upgrade -y
 
+# Define default paths
 default_scriptpath = ~/ScriptCanvas/scripts/virtual_machine/components/
 default_logpath = ~/ScriptCanvas/logs/
+
+# Define default file extensions
 script_extension = .sh
 log_extension = .log
+
+
+############################################
+
+# DEFINE VM COMPONENTS TO BE CONFIGURED
+
+############################################
 
 # SSH
 component_id = 0
@@ -49,6 +60,14 @@ bash $component_0_scriptpath/$component_0_scriptname > $component_0_logpath/$com
 bash $component_1_scriptpath/$component_1_scriptname > $component_1_logpath/$component_1_logname
 bash $component_2_scriptpath/$component_2_scriptname > $component_2_logpath/$component_2_logname
 bash $component_3_scriptpath/$component_3_scriptname > $component_3_logpath/$component_3_logname
+
+
+
+############################################
+
+# WRAP UP CONFIGURATION
+
+############################################
 
 # Shutdown and reboot for the scripts that need that to finish
 sudo shutdown -r now
