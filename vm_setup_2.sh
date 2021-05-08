@@ -2,13 +2,13 @@
 
 # Do everything using a single identity until requirements include mutliple users 
 # The current values are placeholders until this script is to be integrated into larger development/testing systems
-identity = sauron
-domain = mordor
-user = $identity
-group = $identity
+identity=sauron
+domain=mordor
+user=$identity
+group=$identity
 
-vm_config_script_path = /home/sauron/ScriptCanvas/scripts/virtual_machine/
-vm_config_script_name = configure_vm.sh
+vm_config_script_path=/home/sauron/ScriptCanvas/scripts/virtual_machine/
+vm_config_script_name=configure_vm.sh
 
 # Update, Upgrade, and Install Git
 sudo apt update -y

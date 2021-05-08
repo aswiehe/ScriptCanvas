@@ -7,8 +7,8 @@ read -p "Name of folder for new application (suggested 'Application'): " applica
 # Uncomment to prompt user for git username and email
 # read -p "Git user.name you'd like to use: " git_username
 # read -p "Git user.email you'd like to use: " git_useremail
-git_username = sauron
-git_useremail = sauron@mordor
+git_username=sauron
+git_useremail=sauron@mordor
 
 # Set up and get into folder for new app
 cd ~
