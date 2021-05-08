@@ -21,7 +21,7 @@ clear
 git status
 
 # Warn user about the other tab that is open, and that it must remain open while the application is running
-echo -e "\n[The other gnome-terminal tab must remain open while application is running...]\n\n"
+echo -e "\n\n\n\n\n\n[The other gnome-terminal tab must remain open while application is running...]\n"
 
 exit
 
