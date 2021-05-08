@@ -16,8 +16,11 @@ gnome-terminal --tab -e 'ng serve --open'
 # Open App folder in Visual Studio Code
 code ~/$application_folder_name/$application_name
 
-# Clear screen and print warning to keep other terminal tab open
+# Clear screen and show git status so user sees differences between local repo and the remote one shown in browser
 clear
+git status
+
+# Warn user about the other tab that is open, and that it must remain open while the application is running
 echo -e "\n[The other gnome-terminal tab must remain open while application is running...]\n\n"
 
 exit
