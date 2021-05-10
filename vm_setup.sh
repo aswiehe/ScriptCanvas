@@ -34,11 +34,6 @@ cd ScriptCanvas
 sudo -u $user git config --global user.name "$user"
 sudo -u $user git config --global user.email "$user@$domain"
 
-# After testing for this script is complete, begin phasing in the newer commented out configure_vm_2 script
-# bash /home/sauron/ScriptCanvas/scripts/virtual_machine/configure_vm_2.sh
-
-touch $log_filepath
-
 # Run script to set up and install components this VM will use
 bash $script_filepath > $log_filepath
 
