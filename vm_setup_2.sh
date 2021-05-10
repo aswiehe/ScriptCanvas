@@ -13,13 +13,8 @@ log_extension=.log
 script_path=~/ScriptCanvas/scripts/virtual_machine/
 log_path=~/ScriptCanvas/scripts/virtual_machine/
 
-script_filepath=$script_path + "/" +$config_filename + $script_extension
-log_filepath=$script_path + "/" +$config_filename + $log_extension
-
-echo "script_filepath = " + script_filepath
-echo "log_filepath = " + log_filepath
-
-exit
+script_filepath=$script_path/$config_filename$script_extension
+log_filepath=$script_path/$config_filename$log_extension
 
 vm_config_log_path=/home/sauron/ScriptCanvas/log
 log_extension=config_vm.log
@@ -46,6 +41,6 @@ sudo -u $user git config --global user.email "$user@$domain"
 # bash /home/sauron/ScriptCanvas/scripts/virtual_machine/configure_vm_2.sh
 
 # Run script to set up and install components this VM will use
-bash $vm_config_script_path/$vm_config_script_name > $vm_config_log_path/$vm_config_log_name
+bash $script_filepath > $log_filepath
 
 exit
