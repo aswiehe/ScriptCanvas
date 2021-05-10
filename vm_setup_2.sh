@@ -7,8 +7,23 @@ domain=mordor
 user=$identity
 group=$identity
 
-vm_config_script_path=/home/sauron/ScriptCanvas/scripts/virtual_machine/
-vm_config_script_name=configure_vm.sh
+vm_config_filename=configure_vm
+script_extension=.sh
+log_extension=.log
+script_path=~/ScriptCanvas/scripts/virtual_machine/
+log_path=~/ScriptCanvas/scripts/virtual_machine/
+
+script_filepath=$script_path + "/" +$config_filename + $script_extension
+log_filepath=$script_path + "/" +$config_filename + $log_extension
+
+echo "script_filepath = " + script_filepath
+echo "log_filepath = " + log_filepath
+
+exit
+
+vm_config_log_path=/home/sauron/ScriptCanvas/log
+log_extension=config_vm.log
+
 
 # Update, Upgrade, and Install Git
 sudo apt update -y
@@ -31,6 +46,6 @@ sudo -u $user git config --global user.email "$user@$domain"
 # bash /home/sauron/ScriptCanvas/scripts/virtual_machine/configure_vm_2.sh
 
 # Run script to set up and install components this VM will use
-bash $vm_config_script_path/$vm_config_script_name
+bash $vm_config_script_path/$vm_config_script_name > $vm_config_log_path/$vm_config_log_name
 
 exit
