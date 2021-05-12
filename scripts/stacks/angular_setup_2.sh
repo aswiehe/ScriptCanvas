@@ -1,14 +1,146 @@
 #!bin/bash
 
-# Get the users desired application and directory names
-read -p "Name of repo on github (Press Enter if no repo to clone): " github_repo_name
-read -p "Name to give application locally (Press Enter to make same as name of Github repo): " application_name
-read -p "Name of folder for new application (suggested 'Application'): " application_folder_name
 
-if [ $sgithub_repo_name == "" && $application_name == "" ]; then
-    echo "\n\nApplication name cannot be blank if not cloning from a Github repository\nExiting...\n\n"
-    exit
-fi
+
+# Get the users desired application and folder names
+
+github_repo_path="https://github.com/aswiehe/"
+
+github_repo_name=""
+application_name=""
+application_folder_name=""
+
+names_are_valid=false
+application_folder_created_successfully=false
+application_cloned_successfully=false
+application_and_folder_created_successfully=false
+
+
+while [[ $names_are_valid == false || $application_and_folder_created_successfully == false ]]
+do
+
+    names_are_valid=true
+    application_folder_created_successfully=true
+
+    echo
+    read -p "Name of repo on github (Press Enter not cloning from repo): " github_repo_name
+    read -p "Name of application (Press Enter to set name as Github repo): " application_name
+    read -p "Name of folder for new application (Press Enter for 'Application'): " application_folder_name
+    echo
+    
+
+    # Check for if user didn't provide a github repo or a name to save the application as locally
+    if [[ $github_repo_name == "" && $application_name == "" ]] 
+        then
+            echo -e "Application name cannot be blank if not cloning from a Github repository"
+            names_are_valid=false
+    fi
+
+    # Check for if the user provided a blank name for the folder
+    if [[ $application_folder_name == "" ]] 
+        then
+        application_folder_name="Application"
+    fi
+
+    # Check if folder name already exists before trying to create it
+    if [[ -a $HOME/$application_folder_name ]] 
+        then
+        echo -e "\nUnable to create a folder with this name (filename already exists)"
+        names_are_valid=false
+        application_folder_created_successfully=false
+    else
+        if mkdir "$HOME/$application_folder_name"
+            then
+            cd "$HOME/$application_folder_name" || exit
+            echo -e "Folder created successfully\n"
+            application_folder_created_successfully=true
+        else
+            names_are_valid=false
+            application_folder_created_successfully=false
+        fi
+    fi
+
+    # Try making folder if the names are valid
+    if [[ $names_are_valid == true ]] 
+        then
+        echo -e "\nNames are valid"
+        if [[ $github_repo_name == "" ]]
+            then
+            echo -e "\nAttempting to create application"
+            if mkdir "$application_name"
+                then
+                echo -e "\nThe application was successfully created"
+                application_created_successfully=true
+                application_and_folder_created_successfully=true
+                
+            else
+                echo -e "\nThe application failed to be created"
+                application_created_successfully=false
+                application_and_folder_created_successfully=false
+            fi
+        elif [[ $application_name == "" ]]
+            then
+            echo -e "\nAttempting to clone repository"
+            if git clone "$github_repo_path$github_repo_name"
+                then
+                if [[ -d "$HOME/$application_name/$gihub_repo_name" ]]
+                    then
+                    echo -e "\nApplication cloned successfully"
+                    application_cloned_successfully=true
+                    application_and_folder_created_successfully=true
+                else
+                    echo -e "\nThe application failed to be cloned"
+                    application_cloned_successfully=false
+                    application_and_folder_created_successfully=false
+                fi
+            else
+                echo -e "\nThe application failed to be cloned"
+                application_cloned_successfully=false
+                application_and_folder_created_successfully=false
+                exit
+            fi
+        else
+            echo -e "\nAttempting to clone repository with a new name"   
+            if git clone "$github_repo_path$github_repo_name" "$application_name"
+                then
+                if [[ -d "$gihub_repo_name" ]]
+                    then
+                    echo -e "\nThe application was cloned successfully (with a new name)"
+                    application_cloned_successfully=true
+                    application_and_folder_created_successfully=true
+                else
+                    echo -e "\nThe application failed to be cloned (with a new name)"
+                    application_cloned_successfully=false
+                    application_and_folder_created_successfully=false
+                fi
+                echo -e "\nThe application was cloned successfully (with a new name)"
+                application_cloned_successfully=true
+                application_and_folder_created_successfully=true
+            else
+                echo -e "\nThe application failed to be cloned (with a new name)"
+                application_cloned_successfully=false
+                application_and_folder_created_successfully=false
+            fi
+        fi
+    fi
+
+    echo -e "\nApplication and folder were created successfully: $application_and_folder_created_successfully"
+
+    if [[ $application_and_folder_created_successfully == false ]]
+        then
+        names_are_valid=false
+        if [[ $application_folder_created_successfully == true ]]
+            then
+            echo -e "\nRemoving folder if previously created..."
+            rm -rf ~/$application_folder_name
+        fi
+        application_folder_created_successfully=false
+        echo -e "\nPlease try again...\n"
+    fi
+
+done
+
+exit
 
 # Uncomment to prompt user for git username and email
 # read -p "Git user.name you'd like to use: " git_username
@@ -17,19 +149,19 @@ git_username=sauron
 git_useremail=sauron@mordor
 
 # Set up and get into folder for new app
-cd ~
-mkdir $application_folder_name
-cd $application_folder_name
+cd "$HOME" || echo -e "Could not open a critical directory" & exit
+mkdir "$application_folder_name"
+cd "$application_folder_name" || echo -e "Could not open a critical directory" & exit
 
 # Install npm, use npm to install Angular CLI, and use Angular CLI to create new app
 sudo apt install npm -y
 sudo npm install -g @angular/cli
-ng new $application_name
+ng new "$application_name"
 
 # Go into directory of new app and set up git
-cd $application_name
-git config --global user.name "sauron"
-git config --global user.name "sauron@mordor"
+cd "$application_name" || echo -e "Could not open a critical directory" & exit
+git config --global user.name "$git_username"
+git config --global user.name "$git_useremail"
 
 
 # Start app server
