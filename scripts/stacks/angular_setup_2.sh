@@ -8,10 +8,10 @@ github_repo_path="https://github.com/aswiehe/"
 
 github_repo_name=""
 application_name=""
-application_folder_name=""
+folder_name=""
 
 names_are_valid=false
-application_folder_created_successfully=false
+folder_created_successfully=false
 application_cloned_successfully=false
 application_and_folder_created_successfully=false
 
@@ -20,12 +20,12 @@ while [[ $names_are_valid == false || $application_and_folder_created_successful
 do
 
     names_are_valid=true
-    application_folder_created_successfully=true
+    folder_created_successfully=true
 
     echo
     read -p "Name of repo on github (Press Enter not cloning from repo): " github_repo_name
     read -p "Name of application (Press Enter to set name as Github repo): " application_name
-    read -p "Name of folder for new application (Press Enter for 'Application'): " application_folder_name
+    read -p "Name of folder for new application (Press Enter for 'Application'): " folder_name
     echo
     
 
@@ -37,32 +37,33 @@ do
     fi
 
     # Check for if the user provided a blank name for the folder
-    if [[ $application_folder_name == "" ]] 
+    if [[ $folder_name == "" ]] 
         then
-        application_folder_name="Application"
+        folder_name="Application"
     fi
 
     # Check if folder name already exists before trying to create it
-    if [[ -a $HOME/$application_folder_name ]] 
+    if [[ -a $HOME/$folder_name ]] 
         then
         echo -e "\nUnable to create a folder with this name (filename already exists)"
         names_are_valid=false
-        application_folder_created_successfully=false
+        folder_created_successfully=false
     else
-        if mkdir "$HOME/$application_folder_name"
+        if mkdir "$HOME/$folder_name"
             then
-            cd "$HOME/$application_folder_name" || exit
+            cd "$HOME/$folder_name" || exit
             echo -e "Folder created successfully\n"
-            application_folder_created_successfully=true
+            folder_created_successfully=true
         else
             names_are_valid=false
-            application_folder_created_successfully=false
+            folder_created_successfully=false
         fi
     fi
 
-    # Try making folder if the names are valid
+    # Start attempting to create or cloning
     if [[ $names_are_valid == true ]] 
         then
+        # Create a new application without cloning a repository
         echo -e "\nNames are valid"
         if [[ $github_repo_name == "" ]]
             then
@@ -78,6 +79,7 @@ do
                 application_created_successfully=false
                 application_and_folder_created_successfully=false
             fi
+        # Clone repository with same name
         elif [[ $application_name == "" ]]
             then
             echo -e "\nAttempting to clone repository"
@@ -99,6 +101,7 @@ do
                 application_and_folder_created_successfully=false
                 exit
             fi
+        # Clone repository with new name
         else
             echo -e "\nAttempting to clone repository with a new name"   
             if git clone "$github_repo_path$github_repo_name" "$application_name"
@@ -124,17 +127,19 @@ do
         fi
     fi
 
+    # Tell user if everything worked alright
     echo -e "\nApplication and folder were created successfully: $application_and_folder_created_successfully"
 
+    # Reset flag values if there was a problem, and remove the folder if it was created
     if [[ $application_and_folder_created_successfully == false ]]
         then
         names_are_valid=false
-        if [[ $application_folder_created_successfully == true ]]
+        if [[ $folder_created_successfully == true ]]
             then
-            echo -e "\nRemoving folder if previously created..."
-            rm -rf ~/$application_folder_name
+            echo -e "\nRemoving folder if previously created without an application..."
+            rm -rf ~/$folder_name
         fi
-        application_folder_created_successfully=false
+        folder_created_successfully=false
         echo -e "\nPlease try again...\n"
     fi
 
@@ -150,8 +155,8 @@ git_useremail=sauron@mordor
 
 # Set up and get into folder for new app
 cd "$HOME" || echo -e "Could not open a critical directory" & exit
-mkdir "$application_folder_name"
-cd "$application_folder_name" || echo -e "Could not open a critical directory" & exit
+mkdir "$folder_name"
+cd "$folder_name" || echo -e "Could not open a critical directory" & exit
 
 # Install npm, use npm to install Angular CLI, and use Angular CLI to create new app
 sudo apt install npm -y
